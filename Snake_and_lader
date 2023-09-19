@@ -1,0 +1,148 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int rd()
+{
+    int rem;
+A:
+    rem = rand() % 7;
+    if (rem == 0)
+        goto A;
+    else
+        return rem;
+}
+
+void displaychart(int curp, char player[20])
+{
+    int i, j, t, c, sft = 0, diceres;
+
+    if (curp == 100)
+    {
+        printf("*****Congratulations*****\n\n\nPlayer %s wins\n", player);
+        scanf("%*s");
+        exit(0);
+    }
+
+    for (i = 10; i > 0; i--)
+    {
+        t = i - 1;
+        if ((sft % 2) == 0)
+        {
+            c = 0;
+            for (j = 10; j >= 1; j--)
+            {
+                diceres = (i * j) + (t * c++);
+
+                if (curp == diceres)
+                    printf("%s\t", player);
+                else
+                    printf("%d\t", diceres);
+            }
+        }
+        else
+        {
+            c = 9;
+            for (j = 1; j <= 10; j++)
+            {
+                diceres = (i * j) + (t * c--);
+
+                if (curp == diceres)
+                    printf("%s\t", player);
+                else
+                    printf("%d\t", diceres);
+            }
+        }
+        printf("\n\n");
+        sft++;
+    }
+
+    printf("--------------------------------------------------------------------------\n");
+}
+
+int main()
+{
+    int dice, cur_pos1 = 0, cur_pos2 = 0;
+    char ch,prevturn='6';
+    char player1[20] = "Player 1"; // Default names
+    char player2[20] = "Player 2"; // Default names
+
+    while (1)
+    {
+        printf("        * SNAKE AND LADDER GAME * \n      ");
+        printf("Snakes:- 25 to 9,\t 65 to 40,\t 99 to  1.\nLadder:- 13 to 42,\t 60 to 83,\t 70 to 93.\n");
+        printf("Choose your option\n");
+        printf("1. Enter Player Names\n");
+        printf("2. Player 1 plays\n");
+        printf("3. Player 2 plays\n");
+        printf("4. Exit\n");
+        prevturn=ch;
+        scanf(" %c", &ch); // Use a space before %c to consume any whitespace characters (like Enter)
+
+        switch (ch)
+        {
+        case '1':
+            printf("Enter Player 1's name: ");
+            scanf("%s", player1);
+            printf("Enter Player 2's name: ");
+            scanf("%s", player2);
+            printf("Player names have been set to: %s (Player 1) and %s (Player 2)\n", player1, player2);
+            break;
+
+        case '2':
+            {
+                if(prevturn!=ch)
+                {
+
+
+
+                dice = rd();
+                system("cls");
+                printf("\t\t\t\tDice = %d\n\n", dice);
+                cur_pos1 = dice + cur_pos1;
+                // Check for snakes and ladders and update the position
+                // ...
+
+                displaychart(cur_pos1, player1);
+                }
+
+
+
+                printf("%s position is %d\n",player2,cur_pos2);
+                printf("Player 1's turn is over!'. It's Player 2's turn now.\n");
+            }
+            break;
+
+        case '3':
+            if(prevturn!=ch)
+            {
+
+
+            dice = rd();
+            system("cls");
+            printf("\t\t\t\tDice = %d\n\n", dice);
+            cur_pos2 = dice + cur_pos2;
+            // Check for snakes and ladders and update the position
+            // ...
+
+
+
+
+                   displaychart(cur_pos2, player2);
+            }
+
+            printf("%s position is %d\n",player1, cur_pos1);
+			printf("Player 2's turn is over!'. It's Player 1's turn now.\n");
+            break;
+
+        case '4':
+            exit(0);
+            break;
+
+        default:
+            printf("Incorrect choice. Try Again\n");
+        }
+    }
+
+    return 0;
+}
